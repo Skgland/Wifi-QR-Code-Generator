@@ -2,6 +2,12 @@
 name = "wifi-qr-code-generator"
 version = "0.1.0"
 edition = "2021"
+license = "MIT OR APACHE-2"
+repository = "https://github.com/Skgland/Wifi-QR-Code-Generator"
+readme = "Readme.md"
+keywords = ["cli", "wifi", "wlan", "qr-code"]
+categories = ["command-line-utilities"]
+description = "A small CLI Utility for generating Wifi QR-Codes"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

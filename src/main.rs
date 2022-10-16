@@ -1,3 +1,5 @@
+#![warn(clippy::cargo)]
+
 use clap::Parser;
 use image::Luma;
 use qrcode::QrCode;
