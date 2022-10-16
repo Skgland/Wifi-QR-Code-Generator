@@ -2,7 +2,7 @@
 name = "wifi-qr-code-generator"
 version = "0.1.0"
 edition = "2021"
-license = "MIT OR APACHE-2"
+license = "MIT OR Apache-2.0"
 repository = "https://github.com/Skgland/Wifi-QR-Code-Generator"
 readme = "Readme.md"
 keywords = ["cli", "wifi", "wlan", "qr-code"]
