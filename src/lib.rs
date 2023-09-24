@@ -38,6 +38,7 @@ impl Default for ImageFormat {
     }
 }
 
+#[cfg(feature = "cli")]
 impl ValueEnum for ImageFormat {
     fn value_variants<'a>() -> &'a [Self] {
         &[
