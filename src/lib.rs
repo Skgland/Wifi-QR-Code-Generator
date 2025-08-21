@@ -10,8 +10,8 @@ use clap::{builder::PossibleValue, ValueEnum};
 
 use image::ImageBuffer;
 use image::Luma;
-use qrcode::QrCode;
 use qrcode::render::Pixel;
+use qrcode::QrCode;
 
 #[derive(Clone)]
 #[non_exhaustive]
@@ -42,16 +42,15 @@ impl Default for ImageFormat {
 impl ValueEnum for ImageFormat {
     fn value_variants<'a>() -> &'a [Self] {
         &[
-            Self::Qoi, Self::ImageFormat(image::ImageFormat::Png),
-            Self::ImageFormat(image::ImageFormat::Jpeg)
+            Self::Qoi,
+            Self::ImageFormat(image::ImageFormat::Png),
+            Self::ImageFormat(image::ImageFormat::Jpeg),
         ]
     }
 
     fn to_possible_value(&self) -> Option<clap::builder::PossibleValue> {
         let name = format!("{self:?}").to_lowercase();
-        Some(
-            PossibleValue::new(name),
-        )
+        Some(PossibleValue::new(name))
     }
 }
 
@@ -77,14 +76,14 @@ impl Image {
                 self.buffer.save_with_format(file_path, format)?;
             }
             ImageFormat::Qoi => {
-                let data = arqoii::QoiEncoder::new(
+                let data = arqoii::encode::QoiEncoder::new(
                     QoiHeader::new(
                         self.buffer.width(),
                         self.buffer.height(),
                         arqoii::types::QoiChannels::Rgb,
                         arqoii::types::QoiColorSpace::SRgbWithLinearAlpha,
                     ),
-                    self.buffer.pixels().map(|px| arqoii::Pixel {
+                    self.buffer.pixels().map(|px| arqoii::types::Pixel {
                         r: px.0[0],
                         g: px.0[0],
                         b: px.0[0],
@@ -107,7 +106,6 @@ impl Image {
     }
 }
 
-
 #[derive(Debug, Clone, Copy)]
 struct Px(Luma<u8>);
 
@@ -129,11 +127,16 @@ impl qrcode::render::Canvas for Canvas {
     type Image = <Px as Pixel>::Image;
 
     fn new(width: u32, height: u32, dark_pixel: Self::Pixel, light_pixel: Self::Pixel) -> Self {
-        Self(dark_pixel, Image { buffer: ImageBuffer::from_pixel(width, height, light_pixel.0) })
+        Self(
+            dark_pixel,
+            Image {
+                buffer: ImageBuffer::from_pixel(width, height, light_pixel.0),
+            },
+        )
     }
 
     fn draw_dark_pixel(&mut self, x: u32, y: u32) {
-        self.1.buffer.put_pixel(x, y, self.0.0)
+        self.1.buffer.put_pixel(x, y, self.0 .0)
     }
 
     fn into_image(self) -> Self::Image {
